@@ -10,7 +10,11 @@ object MovieEndpoints {
     endpoint.get
       .in("api" / "movies" / path[Title]("title"))
       .out(circe.jsonBody[Movie])
-      .errorOut(statusCode.and(circe.jsonBody[ErrorInfo]))
+      .errorOut(
+        statusCode
+          .description(StatusCode.NotFound, "Not Found")
+          .and(circe.jsonBody[ErrorInfo])
+      )
       .description("Retrieve a movie")
 
   val Create: Endpoint[ApiKey, Movie, (StatusCode, ErrorInfo), Unit, Any] =
@@ -18,6 +22,10 @@ object MovieEndpoints {
       .securityIn(auth.apiKey(header[ApiKey]("api_key")))
       .in("api" / "movies")
       .in(circe.jsonBody[Movie].description("Json object describing a movie"))
-      .errorOut(statusCode.and(circe.jsonBody[ErrorInfo]))
+      .errorOut(
+        statusCode
+          .description(StatusCode.Forbidden, "Unauthorized access")
+          .and(circe.jsonBody[ErrorInfo])
+      )
       .description("Register a movie")
 }

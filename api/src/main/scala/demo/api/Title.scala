@@ -4,8 +4,10 @@ import io.circe.Codec
 import io.circe.Decoder
 import io.circe.Encoder
 import sttp.tapir.Codec.PlainCodec
+import sttp.tapir.Schema.annotations.description
 import sttp.tapir.{Codec => TCodec}
 
+@description("Title")
 case class Title(value: String) extends AnyVal
 
 object Title {
