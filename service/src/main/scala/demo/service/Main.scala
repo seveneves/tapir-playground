@@ -13,8 +13,7 @@ object Main {
   def main(args: Array[String]): Unit = {
     implicit val actorSystem: ActorSystem = ActorSystem()
     import actorSystem.dispatcher
-    val http = Http()
-    http
+    Http()
       .newServerAt("localhost", 8080)
       .bind(AkkaHttpRoutes.All)
       .onComplete {
