@@ -4,14 +4,11 @@ import io.circe.Codec
 import io.circe.Decoder
 import io.circe.Encoder
 
-type Description = String
+case class Description(value: String) extends AnyVal
 
-object Description:
-  def apply(str: String): Description = str
-
+object Description {
   implicit val CirceCodec: Codec[Description] = Codec.from(
     Decoder.decodeString.map(Description.apply),
-    Encoder.encodeString.contramap(v => v)
+    Encoder.encodeString.contramap(_.value)
   )
-
-end Description
+}

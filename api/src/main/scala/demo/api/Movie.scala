@@ -1,14 +1,14 @@
 package demo.api
 
 import io.circe.Codec
-import io.circe.generic.semiauto.*
+import io.circe.generic.semiauto._
 
 case class Movie(
-  title: Title,
-  description: Description,
-  year: Year,
+    title: Title,
+    description: Description,
+    year: Year
 )
 
-object Movie:
-  val CirceCodec: Codec[Movie] = deriveCodec[Movie]
-end Movie
+object Movie {
+  implicit val CirceCodec: Codec[Movie] = deriveCodec[Movie]
+}

@@ -3,14 +3,18 @@ package demo.api
 import io.circe.Codec
 import io.circe.Decoder
 import io.circe.Encoder
+import sttp.tapir.Codec.PlainCodec
+import sttp.tapir.{Codec => TCodec}
 
-type Title = String
+case class Title(value: String) extends AnyVal
 
-object Title:
-  def apply(str: String): Title = str
-
+object Title {
   implicit val CirceCodec: Codec[Title] = Codec.from(
-    Decoder.decodeString.map(Title.apply),
-    Encoder.encodeString.contramap(v => v)
+    Decoder.decodeString.map[Title](Title.apply),
+    Encoder.encodeString.contramap(_.value)
   )
-end Title
+
+  implicit val TapirCodec: PlainCodec[Title] =
+    TCodec.string.map(Title.apply _)(_.value)
+
+}

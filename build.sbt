@@ -1,6 +1,6 @@
 name := "tapir-playground"
 
-ThisBuild / scalaVersion := "3.1.1"
+ThisBuild / scalaVersion := "2.13.6"
 
 val api = project
-val service = project
+val service = project.dependsOn(api)
