@@ -11,10 +11,13 @@ object MovieEndpoints {
       .in("api" / "movies" / path[Title]("title"))
       .out(circe.jsonBody[Movie])
       .errorOut(statusCode.and(circe.jsonBody[ErrorInfo]))
+      .description("Retrieve a movie")
 
-  val Create: PublicEndpoint[Movie, (StatusCode, ErrorInfo), Unit, Any] =
+  val Create: Endpoint[ApiKey, Movie, (StatusCode, ErrorInfo), Unit, Any] =
     endpoint.put
+      .securityIn(auth.apiKey(header[ApiKey]("api_key")))
       .in("api" / "movies")
-      .in(circe.jsonBody[Movie])
+      .in(circe.jsonBody[Movie].description("Json object describing a movie"))
       .errorOut(statusCode.and(circe.jsonBody[ErrorInfo]))
+      .description("Register a movie")
 }

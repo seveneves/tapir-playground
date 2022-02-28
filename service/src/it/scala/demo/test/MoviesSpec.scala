@@ -14,7 +14,7 @@ class MoviesSpec extends AnyWordSpec with Matchers {
         ),
         Year(1994)
       )
-      MovieApi.Create(movie) shouldEqual Right(())
+      MovieApi.Create(ApiKey("some_fake_key"))(movie) shouldEqual Right(())
       MovieApi.Get(movie.title) shouldEqual Right(movie)
     }
   }

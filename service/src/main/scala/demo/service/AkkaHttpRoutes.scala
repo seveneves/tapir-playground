@@ -20,8 +20,11 @@ object AkkaHttpRoutes {
     MovieEndpoints.Get.serverLogic(MoviesService.getMovie)
   )
   private val CreateRoute = AkkaHttpServerInterpreter().toRoute(
-    MovieEndpoints.Create.serverLogic(MoviesService.createMovie)
+    MovieEndpoints.Create
+      .serverSecurityLogic(AuthenticationService.checkSecurity)
+      .serverLogic(authCtx => movie => MoviesService.createMovie(movie))
   )
+
   private val SwaggerRoute =
     AkkaHttpServerInterpreter().toRoute(SwaggerEndpoints)
 

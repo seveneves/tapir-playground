@@ -1,6 +1,7 @@
 package demo.test
 
 import demo.api.ErrorInfo
+import demo.api.ApiKey
 import demo.api.Movie
 import demo.api.MovieEndpoints
 import demo.api.Title
@@ -15,8 +16,8 @@ object MovieApi {
       Option(uri"http://localhost:8080")
     )
 
-  val Create: Movie => Either[(StatusCode, ErrorInfo), Unit] =
-    SttpClientInterpreter().toQuickClient(
+  val Create: ApiKey => Movie => Either[(StatusCode, ErrorInfo), Unit] =
+    SttpClientInterpreter().toQuickSecureClient(
       MovieEndpoints.Create,
       Option(uri"http://localhost:8080")
     )
